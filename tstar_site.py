@@ -8,7 +8,6 @@ Created on Mon Oct  2 15:47:34 2017
 
 input: reads in all of the site output files from secondo
 
-
 """
 
 import numpy as np
@@ -20,7 +19,6 @@ import matplotlib as mpl
 plt.style.use("classic")
 mpl.rcParams['font.size'] = 30
 
-from scipy.optimize import curve_fit
 
 #freq bin number
 f1 = 28 #28
@@ -28,16 +26,16 @@ f2 = 70
 
 secondo_dir = 'Andrews_inversion_constrained'
 
-working_dir = '/Users/aklimase/Desktop/USGS/project/'
+working_dir = '/Users/aklimase/Desktop/USGS/project/test_codes/'
 site_dir =  working_dir + secondo_dir
 
 site_list = glob.glob(site_dir + '/[!2]*.out')
 site_list = sorted(site_list)
 
-outfilename = working_dir + 'tstar_site.out'
+outfilename = working_dir + 'kappa_site.out'
 spec_levels_file =  working_dir + 'spec_levels.out'
 
-shiftind = -1#-1
+#shiftind = -1#-1
 
 def decay_func(f, A0, k):
     return np.log(A0) + (-np.pi*f*k)
@@ -57,10 +55,6 @@ def calc_site_tstar(f1,f2):
     tstar_std = []
     A_std = []
 
-    cmap = plt.get_cmap('hsv')
-    colors = cmap(np.linspace(0, 1.0, I))
-    
-    ###################################
     avg_l = []
     avg_m = []
     avg_h = []
@@ -76,7 +70,6 @@ def calc_site_tstar(f1,f2):
         freq = data.T[0]
         Amplitude = (data.T[1]) #data from log to lin
         std = data.T[2]
-#        print std
 
         l = []
         m = []
@@ -126,7 +119,6 @@ def calc_site_tstar(f1,f2):
         
         l = site_list[i].split('/')[-1].split('.')[0]
         
-        plt.plot(data.T[0][f1:f2], data.T[1][f1:f2], color = colors[i], linestyle = '-', lw = 2, alpha= 1, label = l)#y = linear A
         for j in range(len(freq)):
             d[j][0] = np.log(Amplitude[j])#lin to ln
             G[j][0] = -1*np.pi*(freq[j])

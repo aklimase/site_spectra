@@ -25,11 +25,11 @@ stressdrop = 5e6 #pascals
 U = 0.63#0.63
 rho = 2750. #kg/m^3
 
-working_dir =  '/Users/aklimase/Desktop/USGS/project'
-event_spectra_dir = working_dir + '/record_spectra/'
+working_dir =  '/Users/aklimase/Desktop/USGS/project/'
+event_spectra_dir = working_dir + '/test_codes/Andrews_inversion/'
 event_spectra = glob.glob(event_spectra_dir + '[2]*.out')
 
-writefile = 'no'
+writefile = 'yes'
 
 #find events in catalog that are in mag range
 catalog = working_dir + '/catalogs/all_paths_M2.5_USGS_Catalog.txt'
@@ -59,6 +59,7 @@ Brune_demean_list_log = []
  
 for i in range(len(event)):
     f = event_spectra_dir + event[i] + '.out'
+    print f
     if f in event_spectra:
         ev_list.append(event[i])
         data = np.genfromtxt(f, dtype = float, comments = '#', delimiter = None, usecols = (0,1))#only read in first two cols
@@ -96,28 +97,27 @@ ind = sum_list.index(min(sum_list))
 print(ev_list[ind])
 print(min(sum_list))        
 
-for i in range(ind, ind+1):
-    print magl[i]
-    fig = plt.figure(figsize = (12,10))
-    plt.ylabel('Velocity amplitude (m)', fontsize = 16)
-    plt.xlim(0.5,70)
-    plt.loglog(freq , spec_list[i], color = 'green', label = 'event spectra')
-    plt.grid()
-    plt.loglog(freq, Brune_list[i], color = 'blue', label = 'Brune spectra')
-    plt.legend(loc = 'lower right', fontsize = 16)
-    plt.xlabel('Frequency (Hz)', fontsize = 16)
-    plt.title(ev_list[i], fontsize = 16)
-    plt.tick_params(axis='both', which='major', labelsize=15)
-    plt.tick_params(axis='both', which='both', length = 5, width = 1)
-    plt.text(0.7, .1, 'Median log(diff) 1-32.7 Hz (demeaned): ' + str(round(sum_list[i],3)), fontsize = 16)
-    plt.show()
+print magl[ind]
+fig = plt.figure(figsize = (12,10))
+plt.ylabel('Velocity amplitude (m)', fontsize = 16)
+plt.xlim(0.5,70)
+plt.loglog(freq , spec_list[ind], color = 'green', label = 'event spectra')
+plt.grid()
+plt.loglog(freq, Brune_list[ind], color = 'blue', label = 'Brune spectra')
+plt.legend(loc = 'lower right', fontsize = 16)
+plt.xlabel('Frequency (Hz)', fontsize = 16)
+plt.title(ev_list[ind], fontsize = 16)
+plt.tick_params(axis='both', which='major', labelsize=15)
+plt.tick_params(axis='both', which='both', length = 5, width = 1)
+plt.text(0.7, .1, 'Median log(diff) 1-32.7 Hz (demeaned): ' + str(round(sum_list[ind],3)), fontsize = 16)
+plt.show()
 
 
 
 #write the constraint file in linear space to agree with the event and station spectra
 if writefile == 'yes':
-    outfile = open(working_dir + '/constraint_' + ev_list[ind] + '.out', 'w')
-    out = (np.array([freq, (10.**(cf2_list[ind]))]).T)
+    outfile = open(working_dir + 'test_codes/constraint_' + ev_list[ind] + '.out', 'w')
+    out = (np.array([freq, (10.**(cf_list[ind]))]).T)
     outfile.write('#freq_bins \t cf_m \n')
     np.savetxt(outfile, out, fmt=['%E', '%E'], delimiter='\t')
     outfile.close()

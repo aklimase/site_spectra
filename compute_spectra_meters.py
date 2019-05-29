@@ -27,11 +27,14 @@ from spec_func import bin_max_err
 import time
 
 #working directory here
-working_dir = '/Users/aklimase/Desktop/USGS/project'
+working_dir = '/Users/aklimase/Desktop/USGS/project/test_codes'
 
 #path to corrected seismograms
 event_dirs = glob.glob(working_dir + '/corrected/Event_*')
 outpath = working_dir + '/record_spectra'
+
+#sampling rate
+delta = 0.01
 
 ##make event directories within corrected local data
 ##make a directory for each event
@@ -66,7 +69,7 @@ for i in range(len(event_dirs)):
             tr = stream[0]
             data = tr.data
             
-            spec_amp, freq , jack, fstat, dof =  mtspec(data, delta = 0.01, time_bandwidth = 4, number_of_tapers=7, quadratic = True, statistics = True)
+            spec_amp, freq , jack, fstat, dof =  mtspec(data, delta = delta, time_bandwidth = 4, number_of_tapers=7, quadratic = True, statistics = True)
 			#find standard deviation
             sigmaN = (jack[:,1] - jack[:,0])/3.29
             #power spectra
@@ -77,15 +80,15 @@ for i in range(len(event_dirs)):
             tr = stream[0]
             data = tr.data
 
-            spec_amp, freq , jack, fstat, dof =  mtspec(data, delta = 0.01, time_bandwidth = 4, number_of_tapers=7, quadratic = True, statistics = True)
+            spec_amp, freq , jack, fstat, dof =  mtspec(data, delta = delta, time_bandwidth = 4, number_of_tapers=7, quadratic = True, statistics = True)
             sigmaE = (jack[:,1] - jack[:,0])/3.29
             
             #power spectra
             spec_array_E = np.array(spec_amp)
             freq_array_E = np.array(freq)
             
-            #if evenly samples
-            if(len(spec_array_E)==len(spec_array_N)) and len(spec_array_E)>1300:
+            #if evenly sampled
+            if(len(spec_array_E)==len(spec_array_N)):
                 #here we bin into evenly spaced bins with frequency
                 #spectra is power spectra so add the two components
                 data_NE_2 = spec_array_E + spec_array_N

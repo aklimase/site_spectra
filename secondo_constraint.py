@@ -20,11 +20,12 @@ import numpy as np
 import glob
 import os.path as path
 
-working_dir = '/Users/aklimase/Desktop/USGS/project'
+working_dir = '/Users/aklimase/Desktop/USGS/project/test_codes'
 
 #fill in constraint event
-secondo_dir = 'secondo'
-constraint = ' '
+secondo_dir = 'Andrews_inversion'
+#fill in constraint event name here
+constraint ='2010_01_20_11_51_46'
 constraint_file =  working_dir + '/constraint_' + constraint + '.out'
 outfile_path = working_dir + '/Andrews_inversion_constrained'
 

@@ -29,9 +29,10 @@ import random
 #records are in m/s
 #should be binned frequencies and amplitudes
 #make list of records and the corresponding events and stations
-working_dir = '/Users/aklimase/Desktop/USGS/project'
+working_dir = '/Users/aklimase/Desktop/USGS/project/test_codes'
 outfile_path = working_dir + '/Andrews_inversion'
 
+#list of record files
 ev = glob.glob(working_dir + '/record_spectra/Event*/*')
 
 def secondo(record_path, out_file_path):
@@ -63,7 +64,7 @@ def secondo(record_path, out_file_path):
         eventid = yyyy + '_' + month + '_' + day + '_' + hh + '_' + mm + '_' + ss
         
         #read in uncorrected data for header info
-        raw_file = working_dir + '/uncorrected/Event_'+ eventid + '/' + network + '_' + station + '_HHN_' + loc + '_' + eventid + '.SAC'
+        raw_file = working_dir + '/corrected/Event_'+ eventid + '/' + network + '_' + station + '_HHN_' + loc + '_' + eventid + '.SAC'
         stream = read(raw_file)
         tr = stream[0]
         
