@@ -49,7 +49,7 @@ for i in range(len(event_dirs)):
     t1 = time.time()
     event = events[i][6:]
     print i
-    print 'binning and fft of event: '+ event
+    print 'binning and fft of event: ' + event
     recordpaths = glob.glob(working_dir + '/corrected/Event_' + event +'/*_*_HHN*.SAC')#full path for only specified channel
     stns = [(x.split('/')[-1]).split('_')[1] for x in recordpaths]
     for j in range(len(stns)):

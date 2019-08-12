@@ -27,22 +27,11 @@ def cut_swave(infile, cutfile, t1, t2):
     origin_sec = tr.stats.sac.nzsec
     origin_msec = tr.stats.sac.nzmsec
     
-#    print(tr.stats.sac.nzhour)
-    
-#    print("event", origin_hour, origin_min, origin_sec, origin_msec)
-    
     trace_starttime = tr.stats.starttime
-#    print(trace_starttime)
-#    print(tr.stats.endtime)
 
     origin_time = (origin_hour*60*60 + origin_min*60 + origin_sec + origin_msec/1000.)# in seconds after start of day
-#    trace_starttime_sec = tr.stats.sac.b #sec
     trace_starttime_sec = trace_starttime.hour*60*60 + trace_starttime.minute*60 + trace_starttime.second
-    
-#    print("origin: ", origin_time)
-#    print("start:", trace_starttime_sec)
-    
-    #difference between origin time and when the trace starts
+
     delta =  origin_time - trace_starttime_sec # in sec
 #    print(delta)
     origin_time_UTC = trace_starttime + datetime.timedelta(seconds=delta)#convert origin time to UTC

@@ -81,7 +81,10 @@ for i in range(len(event)):
         #brune spectra over all frequencies
         Brune = (2.*np.pi*(freq)*omega0)/(1.+((1./fc)*freq)**2.)
         #stay in meters
-        cf_list.append(np.log10(spec)-np.log10(Brune))
+        shift1 = np.mean(Brune[27:70])
+        shift2 = np.mean(spec[27:70])
+        
+        cf_list.append(np.log10(spec/shift2)-np.log10(Brune/shift1))
 
         Brune_list.append(Brune)
         spec_list.append(spec)
